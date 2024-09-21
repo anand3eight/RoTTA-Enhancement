@@ -108,10 +108,12 @@ def train_model(model, train_dir, test_dir, num_epochs=10) :
 
 
 if __name__ == '__main__' :
-    model = timm.create_model('vit_base_patch16_224', pretrained=True)
+    # model = timm.create_model('vit_base_patch16_224', pretrained=True)
+    # model = model.cuda()
+    model = torch.load('./Models/trained_vit.pth')
     train_dir = '../Dataset/tiny/CIFAR-10/train'
     test_dir = '../Dataset/tiny/CIFAR-10/test'
-    num_epochs = 20
+    num_epochs = 100
     model_path = './Models'
     trained_model = train_model(model, train_dir, test_dir, num_epochs)
     torch.save(trained_model, f'{model_path}/trained_vit.pth')

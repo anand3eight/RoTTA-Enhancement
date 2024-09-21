@@ -14,6 +14,7 @@ class RoTTA(BaseAdapter):
         print("Memory Bank : Size = 64, Lambda_T = 1, Lambda_U = 1")
         print("NU : 0.0001 | Update Frequency for Memory Bank : 64")
         super(RoTTA, self).__init__(model, optimizer)
+        print(f"Model after addition of BN Layers : \n{model}")
         self.mem = memory.CSTU(capacity=64, num_class=10, lambda_t=1.0, lambda_u=1.0)
         print(f"Building the Teacher Model")
         self.model_ema = self.build_ema(self.model)
@@ -70,9 +71,9 @@ class RoTTA(BaseAdapter):
             print(f"Loss calculated from Teacher and Student predictions, instance_weight : \n{l_sup}")
         l = l_sup
         if l is not None:
-            optimizer.zero_grad()
+            self.optimizer.zero_grad()
             l.backward()
-            optimizer.step()
+            self.optimizer.step()
 
         print(f"Updating the Teacher Model using EMA")
         self.update_ema_variables(self.model_ema, self.model, self.nu)

@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import torchvision.models as models
-from torchvision.models import ResNet18_Weights
+from helper import evaluate_tta
 
 from rotta import RoTTA
 from tqdm import tqdm
@@ -20,7 +20,7 @@ def build_optimizer(method = 'Adam'):
 
     return optimizer
 
-def testTimeAdaptation(base_model, dataset_path):
+def testTimeAdaptation(base_model, dataset_path, attack_type):
     print("-" * 30)
     print("In the TTA Function")
 
@@ -32,6 +32,8 @@ def testTimeAdaptation(base_model, dataset_path):
     optimizer = build_optimizer()
 
     tta_model = RoTTA(model, optimizer)
+    if tta_model.optimizer == None : 
+        return None
     tta_model.cuda()
 
     transform = transforms.Compose([
@@ -41,39 +43,17 @@ def testTimeAdaptation(base_model, dataset_path):
 
     dataset = datasets.ImageFolder(dataset_path, transform=transform)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
-
-    print(f"Dataset Loaded with Batch Size = {batch_size}")
-    correct_predictions = 0
-    total_predictions = 0
-
-    tbar = tqdm(loader)
-    for batch_id, (images, labels) in enumerate(tbar):
-        images, labels = images.cuda(), labels.cuda()
-        print(f"Calling the RoTTA Module")
-        output = tta_model(images)
-        predict = torch.argmax(output, dim=1)
-        accurate = (predict == labels).sum().item()
-        correct_predictions += accurate
-        total_predictions += labels.size(0)    
-        current_accuracy = correct_predictions / total_predictions
-        tbar.set_postfix( accuracy = current_accuracy ) 
-
-    final_accuracy = correct_predictions / total_predictions
-    print(f"Final Accuracy : {final_accuracy}")
-    print(f"Exiting the TTA Function after calculation of Final Accuracy")
-    print("-" * 30)
+    evaluate_tta(loader, tta_model, 'RoTTA', attack_type)
 
 def main():
     print("-" * 30)
     print("Setting up the Base Model : Resnet-18 and PGD attacked CIFAR-10 Dataset")
-    base_model = models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
-    num_classes = 10
-    base_model.fc = torch.nn.Linear(base_model.fc.in_features, num_classes)
-    dataset_path = '../Attacks/PGD/CIFAR-10/ViT'
-    print("Calling the TTA function")
-    testTimeAdaptation(base_model, dataset_path)
-    print(f"Exiting the Main Function")
-    print("-" * 30)
+    base_model = torch.load('../Training/Models/trained_resnet.pth')
+    base_model.cuda()
+    model_name = 'ResNet18'
+    attack_type = 'AutoAttack'
+    test_dir = f'../Attacks/CIFAR-10/{model_name}/{attack_type}'
+    testTimeAdaptation(base_model, test_dir, attack_type)
 
 if __name__ == "__main__":
     main()
