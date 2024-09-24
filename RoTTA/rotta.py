@@ -74,7 +74,7 @@ class RoTTA(BaseAdapter):
             print(f"Shapes : {batch_std.shape} | {self.train_info['std'].shape} and {batch_mean.shape} | {self.train_info['mean'].shape}")
             std_mse, mean_mse = criterion_mse(batch_std, self.train_info['std']), criterion_mse(batch_mean, self.train_info['mean']) 
             discrepancy_loss = self.fitness_lambda * (std_mse.sum() + mean_mse.sum()) * features.shape[0] / 64
-            loss = discrepancy_loss + entropy_loss
+            l_sup = discrepancy_loss + entropy_loss
             print(f"Loss calculated from Teacher and Student predictions, instance_weight : \n{l_sup}")
         l = l_sup
         if l is not None:
