@@ -40,13 +40,20 @@ def testTimeAdaptation(base_model, dataset_path, attack_type):
         transforms.ToTensor(),
     ])
 
+    train_data = "../Dataset/tiny/CIFAR-10/test"
+    dataset = datasets.ImageFolder(train_data, transform=transform)
+    train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    tta_model.obtain_origin_stat(train_loader)
+
     dataset = datasets.ImageFolder(dataset_path, transform=transform)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
-    evaluate_tta(loader, tta_model, 'RoTTA', attack_type)
+
+
+    evaluate_tta(loader, tta_model, 'RoTTA-Proposed', attack_type)
 
 def main():
    base_model = torch.load('../Training/Models/trained_resnet.pth')
-   attack_type = "FGSM"
+   attack_type = "AutoAttack"
    dataset_dir = f"../Attacks/CIFAR-10/ResNet18/{attack_type}"
    testTimeAdaptation(base_model, dataset_dir, attack_type)
 

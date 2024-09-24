@@ -20,17 +20,19 @@ class RoTTA(BaseAdapter):
         self.nu = 0.001
         self.update_frequency = 64  # actually the same as the size of memory bank
         self.current_instance = 0
+        self.fitness_lambda = 0.4
         print("-" * 30)
 
     @torch.enable_grad()
     def forward_and_adapt(self, batch_data, model, optimizer):
         # batch data
         print("-" * 30)
-        print("Entering the Forward and Adapt Function")
+        print("Entering the Forward and Adapt Function")       
         with torch.no_grad():
             model.eval()
             self.model_ema.eval()
             ema_out = self.model_ema(batch_data)
+            features = ema_out
             predict = torch.softmax(ema_out, dim=1)
             pseudo_label = torch.argmax(predict, dim=1)
             entropy = torch.sum(- predict * torch.log(predict + 1e-6), dim=1)
@@ -46,13 +48,13 @@ class RoTTA(BaseAdapter):
 
             if self.current_instance % self.update_frequency == 0:
                 print("Updating the Student and Teacher Models")
-                self.update_model(model, optimizer)
+                self.update_model(model, optimizer, features)
 
         print(f"Exiting forward_and_adapt function with Teacher Output : {ema_out}")
         print("-" * 30)
         return ema_out
 
-    def update_model(self, model, optimizer):
+    def update_model(self, model, optimizer, features):
         print("-" * 30)
         print(f"Entering the update_model function")
         model.train()
@@ -61,12 +63,18 @@ class RoTTA(BaseAdapter):
         print("Getting the Memory Bank Data")
         sup_data, ages = self.mem.get_memory()
         l_sup = None
+        batch_std, batch_mean = torch.std_mean(features, dim=0)     
         if len(sup_data) > 0:
             sup_data = torch.stack(sup_data)
             ema_sup_out = self.model_ema(sup_data)
             stu_sup_out = model(sup_data)
             instance_weight = timeliness_reweighting(ages)
-            l_sup = (softmax_entropy(stu_sup_out, ema_sup_out) * instance_weight).mean()
+            entropy_loss = (softmax_entropy(stu_sup_out, ema_sup_out) * instance_weight).mean()
+            criterion_mse = nn.MSELoss(reduction='none').cuda()
+            print(f"Shapes : {batch_std.shape} | {self.train_info['std'].shape} and {batch_mean.shape} | {self.train_info['mean'].shape}")
+            std_mse, mean_mse = criterion_mse(batch_std, self.train_info['std']), criterion_mse(batch_mean, self.train_info['mean']) 
+            discrepancy_loss = self.fitness_lambda * (std_mse.sum() + mean_mse.sum()) * features.shape[0] / 64
+            loss = discrepancy_loss + entropy_loss
             print(f"Loss calculated from Teacher and Student predictions, instance_weight : \n{l_sup}")
         l = l_sup
         if l is not None:
@@ -107,6 +115,22 @@ class RoTTA(BaseAdapter):
             momentum_bn.requires_grad_(True)
             set_named_submodule(model, name, momentum_bn)
         return model
+
+    def obtain_origin_stat(self, train_loader):
+        print('===> begin calculating mean and variance for ResNet18')
+        features = []
+        with torch.no_grad():
+            for images, _ in train_loader:
+                images = images.cuda()
+                # Pass images through the model to get features
+                feature = self.model(images)
+                features.append(feature)  # Flatten the features
+
+            features = torch.cat(features, dim=0)
+            std, mean = torch.std_mean(features, dim=0)
+            self.train_info = {'std': std, 'mean': mean}
+        del features
+        print('===> calculating mean and variance for ResNet18 end')
 
 
 def get_named_submodule(model, sub_name: str):
