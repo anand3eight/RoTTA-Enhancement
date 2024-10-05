@@ -1,0 +1,1 @@
+{'accuracy': 0.1, 'precision': 0.01, 'recall': 0.1, 'f1_score': 0.018181818181818184, 'fpr': array([nan, nan, nan, 0.9, nan, nan, nan, nan, nan, nan]), 'fnr': array([0.1, 0.1, 0.1, nan, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]), 'loss': 0.08757760670781135}

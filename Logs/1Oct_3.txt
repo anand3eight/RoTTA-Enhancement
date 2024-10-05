@@ -1,0 +1,111 @@
+/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/cuda/__init__.py:619: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+===> begin calculating mean and variance for ResNet18
+===> calculating mean and variance for ResNet18 end
+  0%|          | 0/63 [00:00<?, ?it/s]  0%|          | 0/63 [00:00<?, ?it/s, accuracy=0.156]  2%|▏         | 1/63 [00:00<00:07,  8.35it/s, accuracy=0.156]
+tensor([[[0.8510, 0.8510, 0.8510,  ..., 0.5294, 0.5294, 0.5294],
+         [0.8510, 0.8510, 0.8510,  ..., 0.5294, 0.5294, 0.5294],
+         [0.8510, 0.8510, 0.8510,  ..., 0.5294, 0.5294, 0.5294],
+         ...,
+         [0.5216, 0.5216, 0.5216,  ..., 0.8824, 0.8824, 0.8824],
+         [0.5216, 0.5216, 0.5216,  ..., 0.8824, 0.8824, 0.8824],
+         [0.5216, 0.5216, 0.5216,  ..., 0.8824, 0.8824, 0.8824]],
+
+        [[0.9216, 0.9216, 0.9216,  ..., 0.6157, 0.6157, 0.6157],
+         [0.9216, 0.9216, 0.9216,  ..., 0.6157, 0.6157, 0.6157],
+         [0.9216, 0.9216, 0.9216,  ..., 0.6157, 0.6157, 0.6157],
+         ...,
+         [0.6039, 0.6039, 0.6039,  ..., 0.9255, 0.9255, 0.9255],
+         [0.6039, 0.6039, 0.6039,  ..., 0.9255, 0.9255, 0.9255],
+         [0.6039, 0.6039, 0.6039,  ..., 0.9255, 0.9255, 0.9255]],
+
+        [[0.7608, 0.7608, 0.7608,  ..., 0.7529, 0.7529, 0.7529],
+         [0.7608, 0.7608, 0.7608,  ..., 0.7529, 0.7529, 0.7529],
+         [0.7608, 0.7608, 0.7608,  ..., 0.7529, 0.7529, 0.7529],
+         ...,
+         [0.7412, 0.7412, 0.7412,  ..., 1.0000, 1.0000, 1.0000],
+         [0.7412, 0.7412, 0.7412,  ..., 1.0000, 1.0000, 1.0000],
+         [0.7412, 0.7412, 0.7412,  ..., 1.0000, 1.0000, 1.0000]]],
+       device='cuda:0')
+Sup Data
+tensor([[[1.0000, 1.0000, 1.0000,  ..., 0.8431, 0.8431, 0.8431],
+         [1.0000, 1.0000, 1.0000,  ..., 0.8431, 0.8431, 0.8431],
+         [1.0000, 1.0000, 1.0000,  ..., 0.8431, 0.8431, 0.8431],
+         ...,
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431],
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431],
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431]],
+
+        [[0.8431, 0.8431, 0.8431,  ..., 1.0000, 1.0000, 1.0000],
+         [0.8431, 0.8431, 0.8431,  ..., 1.0000, 1.0000, 1.0000],
+         [0.8431, 0.8431, 0.8431,  ..., 1.0000, 1.0000, 1.0000],
+         ...,
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431],
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431],
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431]],
+
+        [[1.0000, 1.0000, 1.0000,  ..., 0.8471, 0.8471, 0.8471],
+         [1.0000, 1.0000, 1.0000,  ..., 0.8471, 0.8471, 0.8471],
+         [1.0000, 1.0000, 1.0000,  ..., 0.8471, 0.8471, 0.8471],
+         ...,
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431],
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431],
+         [0.8431, 0.8431, 0.8431,  ..., 0.8431, 0.8431, 0.8431]]],
+       device='cuda:0')
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 64, in <module>
+    main()
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 61, in main
+    testTimeAdaptation(student, dataset_dir, attack_type)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 51, in testTimeAdaptation
+    evaluate_tta(loader, tta_model, 'RoTTA-P-LM', attack_type)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/helper.py", line 73, in evaluate_tta
+    output = tta_model(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/base_adapter.py", line 22, in forward
+    outputs = self.forward_and_adapt(x, self.model, self.optimizer)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 41, in forward_and_adapt
+    self.update_model(model, optimizer)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 49, in update_model
+    l = self.calculate_loss()
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 64, in calculate_loss
+    features = self.feature_extractor(sup_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: conv2d() received an invalid combination of arguments - got (list, Parameter, NoneType, tuple, tuple, tuple, int), but expected one of:
+ * (Tensor input, Tensor weight, Tensor bias, tuple of ints stride, tuple of ints padding, tuple of ints dilation, int groups)
+      didn't match because some of the arguments have invalid types: (!list of [Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor]!, !Parameter!, !NoneType!, !tuple of (int, int)!, !tuple of (int, int)!, !tuple of (int, int)!, int)
+ * (Tensor input, Tensor weight, Tensor bias, tuple of ints stride, str padding, tuple of ints dilation, int groups)
+      didn't match because some of the arguments have invalid types: (!list of [Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor]!, !Parameter!, !NoneType!, !tuple of (int, int)!, !tuple of (int, int)!, !tuple of (int, int)!, int)
+

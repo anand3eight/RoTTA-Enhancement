@@ -1,0 +1,20 @@
+/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/cuda/__init__.py:619: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+DataLoader created for train and test datasets.
+Epoch 1/20:   0%|          | 0/313 [00:00<?, ?it/s]Epoch 1/20:   0%|          | 0/313 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/Training/resnet.py", line 129, in <module>
+    train_and_save_model(model_name)
+  File "/home/project/Documents/RoTTA Enhancement/Training/resnet.py", line 117, in train_and_save_model
+    trained_model = train_model(model, train_dir, test_dir, num_epochs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/Training/resnet.py", line 65, in train_model
+    loss.backward()
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/_tensor.py", line 525, in backward
+    torch.autograd.backward(
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/autograd/__init__.py", line 267, in backward
+    _engine_run_backward(
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/autograd/graph.py", line 744, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: NVML_SUCCESS == DriverAPI::get()->nvmlInit_v2_() INTERNAL ASSERT FAILED at "../c10/cuda/CUDACachingAllocator.cpp":813, please report a bug to PyTorch. 

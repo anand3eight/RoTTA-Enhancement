@@ -67,7 +67,7 @@ def generate_attack_samples(folder_path, model, dataset_name, model_name):
 
 # Example usage
 dataset_name = 'CIFAR-10'
-model_name = 'ResNet18'
+model_name = 'MobileNetV2'
 folder_path = f'../Dataset/tiny/{dataset_name}/test'
-model = torch.load('../Training/Models/trained_resnet.pth')
+model = torch.load('../Training/Models/trained_mobilenetv2.pth')
 generate_attack_samples(folder_path, model, dataset_name, model_name)

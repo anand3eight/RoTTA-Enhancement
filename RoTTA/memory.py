@@ -46,29 +46,18 @@ class CSTU:
         return per_class_occupied
 
     def add_instance(self, instance):
-        print("-" * 30)
-        print(f"Entering add_instance function to add into Memory Bank")
         assert (len(instance) == 3)
         x, prediction, uncertainty = instance
         new_item = MemoryItem(data=x, uncertainty=uncertainty, age=0)
-        print(f"Calculating the Heurestic Score of Current Samples")
         new_score = self.heuristic_score(0, uncertainty)
-        print(f"Removing Samples from the Bank if needed")
         if self.remove_instance(prediction, new_score):
             self.data[prediction].append(new_item)
-        print(f"Adding the Ages to samples in Memory")
         self.add_age()
-        print("Exiting the add_instance function")
-        print("-" * 30)
 
     def remove_instance(self, cls, score):
-        print("-" * 30)
-        print("Within the remove_instance function to replace samples if needed")
         class_list = self.data[cls]
         class_occupied = len(class_list)
         all_occupancy = self.get_occupancy()
-        print("Exiting the remove_instance function based on removal of samples")
-        print("-" * 30)
         if class_occupied < self.per_class:
             if all_occupancy < self.capacity:
                 return True
@@ -80,8 +69,6 @@ class CSTU:
 
 
     def remove_from_classes(self, classes: list[int], score_base):
-        print("-" * 30)
-        print("Within the remove_from_classes function to remove samples")
         max_class = None
         max_index = None
         max_score = None
@@ -95,8 +82,6 @@ class CSTU:
                     max_index = idx
                     max_class = cls
 
-        print("Exiting the remove_from_classes function after removal if Bank is Full")
-        print("-" * 30)
         if max_class is not None:
             if max_score > score_base:
                 self.data[max_class].pop(max_index)
@@ -107,16 +92,12 @@ class CSTU:
             return True
 
     def get_majority_classes(self):
-        print("-" * 30)
-        print("Within get_majority_classes function to check for occupied classes")
         per_class_dist = self.per_class_dist()
         max_occupied = max(per_class_dist)
         classes = []
         for i, occupied in enumerate(per_class_dist):
             if occupied == max_occupied:
                 classes.append(i)
-        print(f"Fully Occupied Classes : {classes}")
-        print("-" * 30)
         return classes
 
     def heuristic_score(self, age, uncertainty):

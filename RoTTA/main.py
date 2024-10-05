@@ -1,9 +1,11 @@
 import torch
+import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import torchvision.models as models
 from torchvision.models import ResNet18_Weights
 from helper import evaluate_tta
+import timm
 
 from rotta import RoTTA
 from tqdm import tqdm
@@ -21,13 +23,10 @@ def build_optimizer(method = 'Adam'):
 
     return optimizer
 
-def testTimeAdaptation(base_model, dataset_path, attack_type):
-    print("-" * 30)
-    print("In the TTA Function")
-
+def testTimeAdaptation(student, dataset_path, attack_type):
     batch_size = 32
     # model, optimizer
-    model = base_model
+    model = student
     params = model.parameters()
 
     optimizer = build_optimizer()
@@ -49,13 +48,17 @@ def testTimeAdaptation(base_model, dataset_path, attack_type):
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
 
-    evaluate_tta(loader, tta_model, 'RoTTA-Proposed', attack_type)
+    evaluate_tta(loader, tta_model, 'MVN2', attack_type)
 
 def main():
-   base_model = torch.load('../Training/Models/trained_resnet.pth')
-   attack_type = "AutoAttack"
-   dataset_dir = f"../Attacks/CIFAR-10/ResNet18/{attack_type}"
-   testTimeAdaptation(base_model, dataset_dir, attack_type)
+    attacks = ['FGSM', 'PGD', 'CW', 'AutoAttack']
+    model_name = 'ResNet18'
+    # teacher = timm.create_model('wide_resnet50_2', pretrained=True)
+    # teacher.fc = nn.Linear(teacher.fc.in_features, 10)
+    # for attack_type in attacks :
+    student = torch.load('../Training/Models/trained_mobilenetv2.pth')
+    dataset_dir = f"../Dataset/tiny/CIFAR-10/test"
+    testTimeAdaptation(student, dataset_dir, 'Clean')
 
 if __name__ == "__main__":
     main()

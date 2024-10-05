@@ -1,0 +1,36 @@
+/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/cuda/__init__.py:619: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+===> begin calculating mean and variance for ResNet18
+===> calculating mean and variance for ResNet18 end
+  0%|          | 0/63 [00:00<?, ?it/s]  0%|          | 0/63 [00:00<?, ?it/s, accuracy=0.156]  2%|▏         | 1/63 [00:00<00:12,  4.86it/s, accuracy=0.156]
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 64, in <module>
+    main()
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 61, in main
+    testTimeAdaptation(student, dataset_dir, attack_type)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 51, in testTimeAdaptation
+    evaluate_tta(loader, tta_model, 'RoTTA-P-LM', attack_type)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/helper.py", line 73, in evaluate_tta
+    output = tta_model((images, labels))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/base_adapter.py", line 22, in forward
+    outputs = self.forward_and_adapt(x, self.model, self.optimizer)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 40, in forward_and_adapt
+    self.update_model(model, optimizer, batch_data)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 48, in update_model
+    l = self.calculate_loss(batch_data)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 85, in calculate_loss
+    combined_output = self.alpha * ema_sup_out + (1 - self.alpha) * F.one_hot(labels, num_classes=stu_sup_out.size(1)).float()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RuntimeError: The size of tensor a (15) must match the size of tensor b (32) at non-singleton dimension 0

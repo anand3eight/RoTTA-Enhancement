@@ -1,0 +1,83 @@
+/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/cuda/__init__.py:619: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+===> begin calculating mean and variance for ResNet18
+===> calculating mean and variance for ResNet18 end
+  0%|          | 0/2000 [00:00<?, ?it/s]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/2000 [00:00<?, ?it/s, accuracy=0]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0.0833]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0.0769]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0.0714]  0%|          | 7/2000 [00:00<00:31, 62.45it/s, accuracy=0.133]   1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.133]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.125]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.118]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.111]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.105]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.1]    1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.0952]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.0909]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.087]   1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.0833]  1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.08]    1%|          | 15/2000 [00:00<00:29, 67.83it/s, accuracy=0.0769]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0769]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0741]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0714]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.069]   1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0667]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0645]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0625]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0606]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0588]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0571]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0556]  1%|▏         | 26/2000 [00:00<00:23, 82.89it/s, accuracy=0.0541]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0541]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0526]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0513]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.05]    2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0488]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0476]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0465]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0455]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0444]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0435]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0426]  2%|▏         | 37/2000 [00:00<00:21, 91.91it/s, accuracy=0.0417]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0417]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0408]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.04]    2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0392]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0385]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0377]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.037]   2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0364]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0357]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0351]  2%|▏         | 48/2000 [00:00<00:20, 97.29it/s, accuracy=0.0345]  3%|▎         | 58/2000 [00:00<00:22, 85.29it/s, accuracy=0.0345]  3%|▎         | 58/2000 [00:00<00:22, 85.29it/s, accuracy=0.0339]  3%|▎         | 58/2000 [00:00<00:22, 85.29it/s, accuracy=0.0333]  3%|▎         | 58/2000 [00:00<00:22, 85.29it/s, accuracy=0.0328]  3%|▎         | 58/2000 [00:00<00:22, 85.29it/s, accuracy=0.0484]  3%|▎         | 58/2000 [00:00<00:22, 85.29it/s, accuracy=0.0476]/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py:52: UserWarning: std_mean(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at ../aten/src/ATen/native/ReduceOps.cpp:1807.)
+  batch_std, batch_mean = torch.std_mean(features, dim=0)
+  3%|▎         | 63/2000 [00:01<00:30, 62.94it/s, accuracy=0.0476]
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 63, in <module>
+    main()
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 60, in main
+    testTimeAdaptation(student, teacher, dataset_dir, attack_type)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 51, in testTimeAdaptation
+    evaluate_tta(loader, tta_model, 'RoTTA-P-MVN', attack_type)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/helper.py", line 73, in evaluate_tta
+    output = tta_model(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/base_adapter.py", line 22, in forward
+    outputs = self.forward_and_adapt(x, self.model, self.optimizer)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 42, in forward_and_adapt
+    self.update_model(model, optimizer, features)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 56, in update_model
+    teacher_sup_out = model(sup_data)
+                      ^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/timm/models/efficientnet.py", line 268, in forward
+    x = self.forward_features(x)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/timm/models/efficientnet.py", line 256, in forward_features
+    x = self.blocks(x)
+        ^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/timm/models/_efficientnet_blocks.py", line 287, in forward
+    x = self.bn1(x)
+        ^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/bn_layers.py", line 62, in forward
+    return x * weight + bias
+           ~~~~~~~~~~~^~~~~~
+RuntimeError: NVML_SUCCESS == DriverAPI::get()->nvmlInit_v2_() INTERNAL ASSERT FAILED at "../c10/cuda/CUDACachingAllocator.cpp":813, please report a bug to PyTorch. 

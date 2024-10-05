@@ -16,11 +16,11 @@ def get_loader(dir) :
     return dataloader
 
 if __name__ == "__main__" :
-    model = torch.load('../Training/Models/trained_resnet.pth')
+    model = torch.load('../Training/Models/trained_mobilenetv2.pth')
     model.cuda()
-    model_name = 'ResNet18'
-    attacks = ['FGSM', 'PGD', 'AutoAttack', 'CW']
-    for attack_type in attacks :
-        test_dir = f'../Attacks/CIFAR-10/ResNet18/{attack_type}'
-        loader = get_loader(test_dir)
-        evaluate_tta(loader, model, model_name, attack_type)
+    model_name = 'MobileNetV2'
+    # attacks = ['FGSM', 'PGD', 'AutoAttack', 'CW']
+    # for attack_type in attacks :
+    test_dir = f'../Dataset/tiny/CIFAR-10/train'
+    loader = get_loader(test_dir)
+    evaluate_tta(loader, model, model_name, 'Clean')
