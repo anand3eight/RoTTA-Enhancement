@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 59, in <module>
+    main()
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 54, in main
+    teacher = torch.load('../Training/Models/trained_wide_resnet34_10.pth')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/serialization.py", line 1025, in load
+    return _load(opened_zipfile,
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/serialization.py", line 1446, in _load
+    result = unpickler.load()
+             ^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/serialization.py", line 1439, in find_class
+    return super().find_class(mod_name, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: Can't get attribute 'WideResNet' on <module '__main__' from '/home/project/Documents/RoTTA Enhancement/RoTTA/main.py'>

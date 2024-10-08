@@ -7,23 +7,24 @@ from base_adapter import softmax_entropy
 from bn_layers import RobustBN1d, RobustBN2d
 
 class RoTTA(BaseAdapter):
-    def __init__(self, model, optimizer):
-        super(RoTTA, self).__init__(model, optimizer)
+    def __init__(self, student, teacher, optimizer):
+        super(RoTTA, self).__init__(student, optimizer)
         self.mem = memory.CSTU(capacity=64, num_class=10, lambda_t=1.0, lambda_u=1.0)
-        self.model_ema = self.build_ema(self.model)
+        self.teacher = teacher
         self.nu = 0.001
         self.update_frequency = 64  # actually the same as the size of memory bank
         self.current_instance = 0
         self.fitness_lambda = 0.4
-        self.alpha = 0.5
+        self.ADaAD_Alpha = 0.5
+
 
     @torch.enable_grad()
     def forward_and_adapt(self, batch_data, model, optimizer):
         # batch data
         with torch.no_grad():
             model.eval()
-            self.model_ema.eval()
-            ema_out = self.model_ema(batch_data)
+            self.teacher.eval()
+            ema_out = self.teacher(batch_data)
             predict = torch.softmax(ema_out, dim=1)
             pseudo_label = torch.argmax(predict, dim=1)
             entropy = torch.sum(- predict * torch.log(predict + 1e-6), dim=1)
@@ -41,17 +42,43 @@ class RoTTA(BaseAdapter):
 
         return ema_out
 
-    def update_model(self, model, optimizer):
-        model.train()
-        self.model_ema.train()
-        # get memory data
-        l = self.calculate_loss()
-        if l is not None:
-            optimizer.zero_grad()
-            l.backward()
-            optimizer.step()
+    def update_model(self, student, optimizer):
+        x_nat, _ = self.mem.get_memory()
+        x_nat = torch.stack(x_nat)
+        x_adv = self.adaad_inner_loss(student, self.teacher, x_nat)
 
-        self.update_ema_variables(self.model_ema, self.model, self.nu)
+        student.train()
+        optimizer.zero_grad()
+
+        ori_outputs = student(x_nat)
+        adv_outputs = student(x_adv)
+
+        with torch.no_grad():
+            self.teacher.eval()
+            t_ori_outputs = self.teacher(x_nat)
+            t_adv_outputs = self.teacher(x_adv)
+
+        kl_loss1 = nn.KLDivLoss()(F.log_softmax(adv_outputs, dim=1),
+                                    F.softmax(t_adv_outputs.detach(), dim=1))
+        kl_loss2 = nn.KLDivLoss()(F.log_softmax(ori_outputs, dim=1),
+                                    F.softmax(t_ori_outputs.detach(), dim=1))
+        
+        loss = self.ADaAD_Alpha*kl_loss1 + (1-self.ADaAD_Alpha)*kl_loss2
+        loss.backward()
+        optimizer.step()
+
+        # train_loss += loss.data
+
+        # correct_ori += torch.max(ori_outputs, 1)[1].eq(targets.data).cpu().sum()
+        # total += targets.size(0)
+        # # get memory data
+        # l = self.calculate_loss()
+        # if l is not None:
+        #     optimizer.zero_grad()
+        #     l.backward()
+        #     optimizer.step()
+
+        # self.update_ema_variables(self.teacher, self.model, self.nu)
 
     def calculate_loss(self):
         sup_data, ages = self.mem.get_memory()
@@ -84,11 +111,50 @@ class RoTTA(BaseAdapter):
 
         return l_sup
 
-    @staticmethod
-    def update_ema_variables(ema_model, model, nu):
-        for ema_param, param in zip(ema_model.parameters(), model.parameters()):
-            ema_param.data[:] = (1 - nu) * ema_param[:].data[:] + nu * param[:].data[:]
-            return ema_model
+    def adaad_inner_loss(self, 
+                     model,
+                     teacher_model,
+                     x_natural,
+                     step_size=2/255,
+                     steps=10,
+                     epsilon=8/255,
+                     BN_eval=True,
+                     random_init=True,
+                     clip_min=0.0,
+                     clip_max=1.0):
+        # define KL-loss
+        criterion_kl = nn.KLDivLoss(reduction='none')
+        if BN_eval:
+            model.eval()
+
+        # set eval mode for teacher model
+        teacher_model.eval()
+        # generate adversarial example
+        if random_init:
+            x_adv = x_natural.detach() + 0.001 * torch.randn(x_natural.shape).cuda().detach()
+        else:
+            x_adv = x_natural.detach()
+        for _ in range(steps):
+            x_adv.requires_grad_()
+            with torch.enable_grad():
+                loss_kl = criterion_kl(F.log_softmax(model(x_adv), dim=1),
+                                    F.softmax(teacher_model(x_adv), dim=1))
+                loss_kl = torch.sum(loss_kl)
+            grad = torch.autograd.grad(loss_kl, [x_adv])[0]
+            x_adv = x_adv.detach() + step_size * torch.sign(grad.detach())
+            x_adv = torch.min(torch.max(x_adv, x_natural -
+                            epsilon), x_natural + epsilon)
+            x_adv = torch.clamp(x_adv, clip_min, clip_max)
+
+        x_adv = torch.clamp(x_adv, clip_min, clip_max)
+
+        return x_adv
+    
+    # @staticmethod
+    # def update_ema_variables(student_param, teacher_param, nu):
+    #     for teacher_param, student_param in zip(teacher_param.parameters(), student_param.parameters()):
+    #         teacher_param.data[:] = (1 - nu) * teacher_param[:].data[:] + nu * student_param[:].data[:]
+    #         return student_param
 
     def configure_model(self, model: nn.Module):
 

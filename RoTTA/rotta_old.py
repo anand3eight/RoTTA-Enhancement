@@ -7,23 +7,23 @@ from base_adapter import softmax_entropy
 from bn_layers import RobustBN1d, RobustBN2d
 
 class RoTTA(BaseAdapter):
-    def __init__(self, teacher, student, optimizer):
-        super(RoTTA, self).__init__(student, optimizer)
+    def __init__(self, model, optimizer):
+        super(RoTTA, self).__init__(model, optimizer)
         self.mem = memory.CSTU(capacity=64, num_class=10, lambda_t=1.0, lambda_u=1.0)
-        self.teacher = teacher
+        self.model_ema = self.build_ema(self.model)
         self.nu = 0.001
         self.update_frequency = 64  # actually the same as the size of memory bank
         self.current_instance = 0
         self.fitness_lambda = 0.4
-
+        self.alpha = 0.5
 
     @torch.enable_grad()
     def forward_and_adapt(self, batch_data, model, optimizer):
         # batch data
         with torch.no_grad():
             model.eval()
-            self.teacher.eval()
-            ema_out = self.teacher(batch_data)
+            self.model_ema.eval()
+            ema_out = self.model_ema(batch_data)
             predict = torch.softmax(ema_out, dim=1)
             pseudo_label = torch.argmax(predict, dim=1)
             entropy = torch.sum(- predict * torch.log(predict + 1e-6), dim=1)
@@ -43,7 +43,7 @@ class RoTTA(BaseAdapter):
 
     def update_model(self, model, optimizer):
         model.train()
-        self.teacher.train()
+        self.model_ema.train()
         # get memory data
         l = self.calculate_loss()
         if l is not None:
@@ -51,7 +51,7 @@ class RoTTA(BaseAdapter):
             l.backward()
             optimizer.step()
 
-        self.update_ema_variables(self.teacher, self.model, self.nu)
+        self.update_ema_variables(self.model_ema, self.model, self.nu)
 
     def calculate_loss(self):
         sup_data, ages = self.mem.get_memory()
@@ -85,10 +85,10 @@ class RoTTA(BaseAdapter):
         return l_sup
 
     @staticmethod
-    def update_ema_variables(student_param, teacher_param, nu):
-        for teacher_param, student_param in zip(teacher_param.parameters(), student_param.parameters()):
-            teacher_param.data[:] = (1 - nu) * teacher_param[:].data[:] + nu * student_param[:].data[:]
-            return student_param
+    def update_ema_variables(ema_model, model, nu):
+        for ema_param, param in zip(ema_model.parameters(), model.parameters()):
+            ema_param.data[:] = (1 - nu) * ema_param[:].data[:] + nu * param[:].data[:]
+            return ema_model
 
     def configure_model(self, model: nn.Module):
 
