@@ -123,7 +123,7 @@ def train_model(model, train_loader, num_epochs=10) :
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.01)
+    optimizer = optim.SGD(model.parameters(), lr=0.001)
 
     # Initialize lists to store metrics for each epoch
     all_preds = []
@@ -199,12 +199,12 @@ def test_model(model, test_loader) :
     print(f'False Negative Rate (FNR) per class: {false_negative_rate}')
 
 def train_and_save_model(model_name):
-    model = WideResNet(depth=34, widen_factor=10)
+    model = torch.load('./Models/trained_wide_resnet34_10.pth')
 
     train_dir = '../Dataset/tiny/CIFAR-10/train'
     test_dir = '../Dataset/tiny/CIFAR-10/test'
     model_path = './Models'
-    num_epochs = 30
+    num_epochs = 100
 
     train_loader, test_loader = get_loader(train_dir, test_dir)
 

@@ -1,0 +1,1 @@
+{'accuracy': nan, 'precision': nan, 'recall': nan, 'f1_score': nan, 'fpr': array([], dtype=float64), 'fnr': array([], dtype=float64), 'loss': 0.0}

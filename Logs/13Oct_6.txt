@@ -1,0 +1,32 @@
+../Attacks/CIFAR-10/ResNet18/AutoAttack
+===> begin calculating mean and variance for ResNet18
+===> calculating mean and variance for ResNet18 end
+  0%|          | 0/63 [00:00<?, ?it/s]/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/numpy/lib/function_base.py:520: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/numpy/core/_methods.py:129: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+  0%|          | 0/63 [00:06<?, ?it/s]
+using Standard version including .
+Warning: it seems to be a randomized defense! Please use version="rand". See flags_doc.md for details.
+initial accuracy: 59.65%
+max Linf perturbation: 0.00000, nan in tensor: 0, max: 1.00000, min: 0.00000
+robust accuracy: 59.65%
+Final Accuracy : 0.5964999794960022
+Average Loss: 0.0
+Confusion matrix and metrics saved for model: RoTTA+FOA(ResNet18)
+../Attacks/CIFAR-10/MobileNetV2/AutoAttack
+===> begin calculating mean and variance for ResNet18
+===> calculating mean and variance for ResNet18 end
+  0%|          | 0/63 [00:00<?, ?it/s]/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/numpy/lib/function_base.py:520: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/numpy/core/_methods.py:129: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+  0%|          | 0/63 [00:07<?, ?it/s]
+using Standard version including .
+Warning: it seems to be a randomized defense! Please use version="rand". See flags_doc.md for details.
+initial accuracy: 8.90%
+max Linf perturbation: 0.00000, nan in tensor: 0, max: 1.00000, min: 0.00000
+robust accuracy: 8.90%
+Final Accuracy : 0.08900000154972076
+Average Loss: 0.0
+Confusion matrix and metrics saved for model: RoTTA+FOA(MobileNetV2)

@@ -4,3 +4,4 @@ Training/Models/trained_vit.pth
 Training/Models/trained_mobilenetv2.pth
 Training/Models/trained_wide_resnet50_2.pth
 /Training/Models/trained_wide_resnet34_10.pth
+Training/Models/trained_wide_resnet34_20.pt
