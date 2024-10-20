@@ -22,7 +22,7 @@ def build_optimizer(method = 'SGD'):
 
 def testTimeAdaptation(student, dataset_path, model_name, attack_type):
     
-    batch_size = 4
+    batch_size = 32
     # model, optimizer
 
     optimizer = build_optimizer()

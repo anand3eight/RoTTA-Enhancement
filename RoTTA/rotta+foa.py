@@ -9,7 +9,7 @@ from bn_layers import RobustBN1d, RobustBN2d
 class RoTTA(BaseAdapter):
     def __init__(self, model, optimizer):
         super(RoTTA, self).__init__(model, optimizer)
-        self.mem = memory.CSTU(capacity=64, num_class=100, lambda_t=1.0, lambda_u=1.0)
+        self.mem = memory.CSTU(capacity=64, num_class=10, lambda_t=1.0, lambda_u=1.0)
         self.model_ema = self.build_ema(self.model)
         self.nu = 0.001
         self.update_frequency = 64  # actually the same as the size of memory bank
