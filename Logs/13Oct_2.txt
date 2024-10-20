@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 64, in <module>
+    main()
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 54, in main
+    testTimeAdaptation(student, '../Dataset/tiny/CIFAR-10/test', 'ResNet18', 'Clean')
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 30, in testTimeAdaptation
+    tta_model = RoTTA(student, optimizer)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 11, in __init__
+    super(RoTTA, self).__init__(model, optimizer)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/base_adapter.py", line 9, in __init__
+    self.model = self.configure_model(model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 93, in configure_model
+    model.requires_grad_(False)
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'collections.OrderedDict' object has no attribute 'requires_grad_'

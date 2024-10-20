@@ -1,0 +1,58 @@
+../Attacks/CIFAR-10/ResNet18/Clean
+===> begin calculating mean and variance for ResNet18
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 62, in <module>
+    main()
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 59, in main
+    testTimeAdaptation(student, dataset_dir, model_name, attack)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/main.py", line 41, in testTimeAdaptation
+    tta_model.obtain_origin_stat(clean_data_loader)
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/rotta.py", line 122, in obtain_origin_stat
+    feature = self.feature_extractor(images)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/WRN.py", line 47, in forward
+    return self.layer(x)
+           ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/WRN.py", line 25, in forward
+    x = self.relu1(self.bn1(x))
+                   ^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA Enhancement/RoTTA/bn_layers.py", line 51, in forward
+    mean = (1 - self.momentum) * self.source_mean + self.momentum * b_mean
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+RuntimeError: The size of tensor a (16) must match the size of tensor b (160) at non-singleton dimension 0

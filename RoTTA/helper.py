@@ -1,9 +1,12 @@
 import os
 import numpy as np
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from tqdm import tqdm
+from advertorch.attacks import GradientSignAttack, LinfPGDAttack, CarliniWagnerL2Attack
+from autoattack import AutoAttack
 
 def get_confmat_values(confmat):
     TP = np.diag(confmat)
@@ -56,20 +59,56 @@ def save_confmat_and_metrics(y_true, y_pred, model_name, attack_type, loss, outp
     
     print(f"Confusion matrix and metrics saved for model: {model_name}")
 
-def evaluate_tta(loader, tta_model, model_name, attack_type):
+def evaluate_tta(loader, tta_model, model, model_name, attack_type):
     output_folder = 'Metrics'
     correct_predictions = 0
     total_predictions = 0
     all_labels = []
     all_preds = []
     total_loss = 0.0
+    # loss_fn = nn.CrossEntropyLoss()
+    # eps = 8/255
 
     tbar = tqdm(loader)
+
+    # if (attack_type == "PGD"):
+    #     adversary = LinfPGDAttack(
+    #         model, loss_fn=loss_fn, eps=eps,
+    #         nb_iter=10, eps_iter=eps/4, rand_init=True, clip_min=0., clip_max=1.,
+    #         targeted=False)
+    # elif (attack_type == "FGSM"):
+    #     adversary = GradientSignAttack(
+    #         model, loss_fn=loss_fn, eps=eps,
+    #         clip_min=0., clip_max=1., targeted=False)
+    # elif (attack_type == "CW"):
+    #     adversary = CarliniWagnerL2Attack(
+    #                     model, confidence=0.01, max_iterations=1000, clip_min=0., clip_max=1., learning_rate=0.01,
+    #                     targeted=False, num_classes=10, binary_search_steps=1, initial_const=eps)
+        
+    # elif (attack_type == "AutoAttack") :
+    #     adversary = AutoAttack(model, norm='Linf', eps=eps, version='Standard')
+    #     x_test = [x for (x,y) in loader]
+    #     x_test = torch.cat(x_test, 0)
+    #     y_test = [y for (x,y) in loader]
+    #     y_test = torch.cat(y_test, 0)
+
+
+    #     with torch.no_grad():
+    #         x_adv, y_adv = adversary.run_standard_evaluation(x_test, y_test, bs=loader.batch_size, return_labels=True)
+    #         correct_predictions = torch.sum(y_adv==y_test).data
+    #         total_predictions = y_test.shape[0]
+            
+    # else:
+    #     adversary = None
     
-    for batch_id, (images, labels) in enumerate(tbar):
+    # if attack_type != 'AutoAttack' :
+    for _, (images, labels) in enumerate(tbar):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         images, labels = images.to(device), labels.to(device)
                 
+        # if attack_type != 'Clean' :
+        #     images = adversary.perturb(images, labels)
+
         output = tta_model(images)
         
         # Predictions and loss calculation

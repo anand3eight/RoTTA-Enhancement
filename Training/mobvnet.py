@@ -12,7 +12,7 @@ import timm
 def get_loader(train_dir, test_dir) :
     # Define transforms
     transform = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize((64, 64)),
         transforms.ToTensor(),
     ])
 
@@ -33,7 +33,7 @@ def train_model(model, train_dir, test_dir, num_epochs=10) :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
 
     # Initialize lists to store metrics for each epoch
     all_preds = []
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     
     train_dir = '../Dataset/tiny/CIFAR-10/train'
     test_dir = '../Dataset/tiny/CIFAR-10/test'
-    num_epochs = 20
+    num_epochs = 30
     model_path = './Models'
     
     trained_model = train_model(model, train_dir, test_dir, num_epochs)

@@ -4,3 +4,6 @@ Training/Models/trained_vit.pth
 Training/Models/trained_mobilenetv2.pth
 Training/Models/trained_wide_resnet50_2.pth
 /Training/Models/trained_wide_resnet34_10.pth
+Training/Models/trained_wide_resnet34_20.pt
+Dataset/cifar-100/cifar-100-python.tar.gz
+Dataset/cifar-100/cifar-100-python

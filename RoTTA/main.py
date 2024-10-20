@@ -3,54 +3,60 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import torchvision.models as models
-from torchvision.models import ResNet18_Weights
 from helper import evaluate_tta
 from rotta import RoTTA
-from WRN import WideResNet, NetworkBlock, BasicBlock
+from WRN import *
 
-def build_optimizer(method = 'Adam'):
+def build_optimizer(method = 'SGD'):
     def optimizer(params):
         if method == 'Adam':
             return torch.optim.Adam(params, lr=1e-3)
         
         elif method == 'SGD':
-            return torch.optim.SGD(params, lr=1e-3)
+            return torch.optim.SGD(params, lr=1e-2)
 
         else:
             raise NotImplementedError
 
     return optimizer
 
-def testTimeAdaptation(student, teacher, dataset_path, attack_type):
+def testTimeAdaptation(student, dataset_path, model_name, attack_type):
     
     batch_size = 4
     # model, optimizer
 
     optimizer = build_optimizer()
 
-    tta_model = RoTTA(student, teacher, optimizer)
+    tta_model = RoTTA(student, optimizer)
     tta_model.cuda()
 
     transform = transforms.Compose([
-        transforms.Resize((64, 64)),
+        transforms.Resize((32, 32)),
         transforms.ToTensor(),
     ])
+
+    clean_dataset_path = '../Dataset/cifar-100/train'
+    clean_dataset = datasets.ImageFolder(clean_dataset_path, transform=transform)
+    clean_data_loader = DataLoader(clean_dataset, batch_size=batch_size, shuffle=False)
+    tta_model.obtain_origin_stat(clean_data_loader)
 
     dataset = datasets.ImageFolder(dataset_path, transform=transform)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
-    evaluate_tta(loader, tta_model, 'RoTTA+ADaaD', attack_type)
+    evaluate_tta(loader, tta_model, student, f'RoTTA+FOA({model_name})-cifar100', attack_type)
 
 def main():
-    # attacks = ['FGSM', 'PGD', 'CW', 'AutoAttack']
-    # model_name = 'ResNet18'
-    # teacher = timm.create_model('wide_resnet50_2', pretrained=True)
-    # teacher.fc = nn.Linear(teacher.fc.in_features, 10)
-    # for attack_type in attacks :
-    student = torch.load('../Training/Models/trained_resnet.pth')
-    teacher = torch.load('../Training/Models/trained_wide_resnet34_10.pth')
-    dataset_dir = f"../Dataset/tiny/CIFAR-10/test"
-    testTimeAdaptation(student, teacher, dataset_dir, 'PGD')
+    models_path = '../Training/Models'
+    dataset = f"../Dataset/cifar-100/test"
+    models = {'ResNet18' : 'trained_resnet.pth'}  
+    attacks = ['FGSM', 'PGD', 'CW','AutoAttack']
+    student = torch.load(f'{models_path}/{models['ResNet18']}')
+    for model_name in models :
+        # for attack in attacks :
+            student = torch.load(f'{models_path}/{models[model_name]}')
+            dataset_dir = f"{dataset}"
+            print(dataset_dir)
+            testTimeAdaptation(student, dataset_dir, model_name, "Clean")
 
 if __name__ == "__main__":
     main()
