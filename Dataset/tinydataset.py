@@ -21,9 +21,9 @@ def copy_n_images(source_folder, destination_folder, class_name, n=200):
     print(f"Copied {min(n, len(image_files))} images to {destination_folder}.")
 
 # Example usage
-n = 1000
-source_folder = 'CIFAR-10/train'  # Replace with the path to your source folder
-folder = 'tiny/CIFAR-10/train'  # Replace with the path to your destination folder
+n = 20
+source_folder = 'cifar-100/test'  # Replace with the path to your source folder
+folder = 'tiny/cifar-100/test'  # Replace with the path to your destination folder
 for class_name in os.listdir(source_folder) :
     destination_folder = os.path.join(folder, class_name)
     copy_n_images(source_folder, destination_folder, class_name, n)

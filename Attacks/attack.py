@@ -3,10 +3,10 @@ import torch
 import torchvision.transforms as transforms
 from torchvision import datasets
 from torch.utils.data import DataLoader
-from torchattacks import PGD, AutoAttack, CW, FGSM
+from torchattacks import PGD, CW, APGD, APGDT, FAB, Square
 from PIL import Image
-import timm
 from tqdm import tqdm
+from pr_net import PreActResNet18
 
 def generate_attack_samples(folder_path, model, dataset_name, model_name):
     # Set device to GPU if available
@@ -20,54 +20,73 @@ def generate_attack_samples(folder_path, model, dataset_name, model_name):
         transforms.ToTensor()
     ])
 
+    # Ignore ipynb_checkpoints folder
     dataset = datasets.ImageFolder(root=folder_path, transform=transform)
+    dataset.samples = [s for s in dataset.samples if "ipynb_checkpoints" not in s[0]]
+
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
 
-    # Define attack
+    # Define attacks
     pgd_attack = PGD(model, eps=0.3, alpha=2/255, steps=10)
-    auto_attack = AutoAttack(model, norm='Linf', eps=0.3)
     cw_attack = CW(model, c=1, kappa=0)
-    fgsm_attack = FGSM(model, eps=0.15)
+    apgd_attack = APGD(model, eps=8/255, steps=10)
+    apgdt_attack = APGDT(model, eps=8/255, steps=10)
+    fab_attack = FAB(model, eps=8/255, steps=10)
+    square_attack = Square(model, eps=8/255)
 
-
+    # Output folders
     output_folder = os.path.join(dataset_name, model_name)
     os.makedirs(output_folder, exist_ok=True)
+
+    clean_output_folder = os.path.join(output_folder, "Clean")
+    os.makedirs(clean_output_folder, exist_ok=True)
 
     # Map class indices to class names
     class_to_idx = dataset.class_to_idx
     idx_to_class = {v: k for k, v in class_to_idx.items()}
 
-    # Generate and save PGD attack samples
-    for i, (images, labels) in enumerate(tqdm(dataloader, desc="Generating PGD samples")):
+    # Generate clean & attack samples
+    for i, (images, labels) in enumerate(tqdm(dataloader, desc="Processing images")):
         images, labels = images.to(device), labels.to(device)
 
-        adv_images_fgsm = fgsm_attack(images, labels) 
-        adv_images_pgd = pgd_attack(images, labels)
-        adv_images_auto = auto_attack(images, labels)
-        adv_images_cw = cw_attack(images, labels)
-               
-        # Save images for each attack in separate folders
-        for attack_type, adv_images in zip(['PGD', 'AutoAttack', 'CW', 'FGSM'], 
-                                           [adv_images_pgd, adv_images_auto, adv_images_cw, adv_images_fgsm]):
-            
-            class_name = idx_to_class[labels.item()]
+        # Save clean images
+        class_name = idx_to_class[labels.item()]
+        class_clean_folder = os.path.join(clean_output_folder, class_name)
+        os.makedirs(class_clean_folder, exist_ok=True)
 
-            # Create separate folder for each attack
-            attack_output_folder = os.path.join(output_folder, attack_type)
-            class_output_folder = os.path.join(attack_output_folder, class_name)
-            os.makedirs(class_output_folder, exist_ok=True)
+        clean_image = images[0].cpu().detach().numpy()
+        clean_image = (clean_image * 255).transpose(1, 2, 0).astype('uint8')
+        clean_image_pil = Image.fromarray(clean_image)
+
+        clean_image_pil.save(os.path.join(class_clean_folder, f"clean_image_{i}.png"))
+
+        # Generate attack samples
+        adv_images_list = {
+            "PGD": pgd_attack(images, labels),
+            "CW": cw_attack(images, labels),
+            "APGD": apgd_attack(images, labels),
+            "APGD_T": apgdt_attack(images, labels),
+            "FAB": fab_attack(images, labels),
+            "Square": square_attack(images, labels),
+        }
+
+        # Save attack images
+        for attack_type, adv_images in adv_images_list.items():
+            attack_output_folder = os.path.join(output_folder, attack_type, class_name)
+            os.makedirs(attack_output_folder, exist_ok=True)
 
             adv_image = adv_images[0].cpu().detach().numpy()
             adv_image = (adv_image * 255).transpose(1, 2, 0).astype('uint8')
             adv_image_pil = Image.fromarray(adv_image)
 
-            adv_image_pil.save(os.path.join(class_output_folder, f"adv_image_{i}.png"))
+            adv_image_pil.save(os.path.join(attack_output_folder, f"adv_image_{i}.png"))
 
-    print(f"Adversarial samples saved in: {output_folder}")
+    print(f"Clean & adversarial samples saved in: {output_folder}")
 
 # Example usage
-dataset_name = 'CIFAR-10'
-model_name = 'MobileNetV2'
-folder_path = f'../Dataset/tiny/{dataset_name}/test'
-model = torch.load('../Training/Models/trained_mobilenetv2.pth')
+dataset_name = 'CIFAR-100'
+model_name = 'PRN18'
+folder_path = f'../Dataset/{dataset_name}/test'
+model = PreActResNet18(num_classes=100)
+model.load_state_dict( torch.load('../Training/Models/trained_preactresnet18-c100.pth') )
 generate_attack_samples(folder_path, model, dataset_name, model_name)

@@ -1,0 +1,71 @@
+../Attacks/CIFAR-10/ResNet18/Clean
+===> begin calculating mean and variance for ResNet18
+===> calculating mean and variance for ResNet18 end
+  0%|          | 0/250 [00:00<?, ?it/s]  0%|          | 0/250 [00:00<?, ?it/s, accuracy=0]  0%|          | 0/250 [00:00<?, ?it/s, accuracy=0.0625]  0%|          | 0/250 [00:00<?, ?it/s, accuracy=0.0417]  0%|          | 0/250 [00:00<?, ?it/s, accuracy=0.0312]  0%|          | 0/250 [00:00<?, ?it/s, accuracy=0.075]   2%|▏         | 5/250 [00:00<00:04, 49.71it/s, accuracy=0.075]  2%|▏         | 5/250 [00:00<00:04, 49.71it/s, accuracy=0.0625]  2%|▏         | 5/250 [00:00<00:04, 49.71it/s, accuracy=0.0893]  2%|▏         | 5/250 [00:00<00:04, 49.71it/s, accuracy=0.0938]  2%|▏         | 5/250 [00:00<00:04, 49.71it/s, accuracy=0.0972]  2%|▏         | 5/250 [00:00<00:04, 49.71it/s, accuracy=0.125]   4%|▍         | 10/250 [00:00<00:16, 14.56it/s, accuracy=0.125]  4%|▍         | 10/250 [00:00<00:16, 14.56it/s, accuracy=0.125]  4%|▍         | 10/250 [00:00<00:16, 14.56it/s, accuracy=0.125]  4%|▍         | 10/250 [00:00<00:16, 14.56it/s, accuracy=0.125]  4%|▍         | 10/250 [00:00<00:16, 14.56it/s, accuracy=0.125]  4%|▍         | 10/250 [00:00<00:16, 14.56it/s, accuracy=0.117]  6%|▌         | 15/250 [00:00<00:11, 21.15it/s, accuracy=0.117]  6%|▌         | 15/250 [00:01<00:11, 21.15it/s, accuracy=0.125]  6%|▌         | 15/250 [00:01<00:11, 21.15it/s, accuracy=0.132]  6%|▌         | 15/250 [00:01<00:11, 21.15it/s, accuracy=0.139]  6%|▌         | 15/250 [00:01<00:11, 21.15it/s, accuracy=0.145]  8%|▊         | 19/250 [00:01<00:15, 14.54it/s, accuracy=0.145]  8%|▊         | 19/250 [00:01<00:15, 14.54it/s, accuracy=0.144]  8%|▊         | 19/250 [00:01<00:15, 14.54it/s, accuracy=0.155]  8%|▊         | 19/250 [00:01<00:15, 14.54it/s, accuracy=0.153]  8%|▊         | 19/250 [00:01<00:15, 14.54it/s, accuracy=0.158]  8%|▊         | 19/250 [00:01<00:15, 14.54it/s, accuracy=0.161] 10%|▉         | 24/250 [00:01<00:17, 13.21it/s, accuracy=0.161] 10%|▉         | 24/250 [00:01<00:17, 13.21it/s, accuracy=0.18]  10%|▉         | 24/250 [00:01<00:17, 13.21it/s, accuracy=0.188] 10%|▉         | 24/250 [00:01<00:17, 13.21it/s, accuracy=0.181] 10%|▉         | 24/250 [00:01<00:17, 13.21it/s, accuracy=0.183] 11%|█         | 28/250 [00:01<00:13, 16.52it/s, accuracy=0.183] 11%|█         | 28/250 [00:01<00:13, 16.52it/s, accuracy=0.185] 11%|█         | 28/250 [00:01<00:13, 16.52it/s, accuracy=0.188] 11%|█         | 28/250 [00:01<00:13, 16.52it/s, accuracy=0.181] 12%|█▏        | 31/250 [00:02<00:15, 14.57it/s, accuracy=0.181]
+Traceback (most recent call last):
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/main.py", line 63, in <module>
+    main()
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/main.py", line 60, in main
+    testTimeAdaptation(student, dataset_dir, model_name, attack)
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/main.py", line 47, in testTimeAdaptation
+    evaluate_tta(loader, tta_model, student, f'RADiC', attack_type)
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/helper.py", line 112, in evaluate_tta
+    output = tta_model(images)
+             ^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/base_adapter.py", line 22, in forward
+    outputs = self.forward_and_adapt(x, self.model, self.optimizer)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/rotta.py", line 39, in forward_and_adapt
+    self.update_model(model, optimizer)
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/rotta.py", line 46, in update_model
+    l = self.calculate_loss()
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/rotta.py", line 66, in calculate_loss
+    stu_sup_out = self.model(sup_data)      # Student model output (f_S)
+                  ^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/resnet.py", line 100, in forward
+    out = self.layer3(out)  # 256*8*8
+          ^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/resnet.py", line 36, in forward
+    out = self.bn2(self.conv2(out))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/miniconda3/envs/tta/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/project/Documents/RoTTA-Enhancement/RoTTA/bn_layers.py", line 58, in forward
+    x = (x - mean) / torch.sqrt(var + self.eps)
+        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 16.00 MiB. GPU 

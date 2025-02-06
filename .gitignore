@@ -11,3 +11,27 @@ Dataset/cifar-100/cifar-100-python
 =======
 Training/Models/trained_wide_resnet34_20.pt
 >>>>>>> 6db6413a7a6f57afc18d7abe9be53d77b1b2e4da
+./.git/objects/pack/pack-ba4f73fd8276fb87960fcfb3f8571e7386f6a452.pack
+./.git/objects/pack/pack-a65aee84afdf89ad5f5177eac9658cc0fb137bf0.pack
+./.git/objects/pack/pack-ddcb73e7e53245d371e86c09d78cd848f0caf90b.pack
+./Training/Models/trained_wide_resnet34_20.pt
+./Training/Models/trained_vit.pth
+./Training/Models/trained_wide_resnet34_10.pth
+./Dataset/cifar-100/cifar-100-python/train
+./Dataset/cifar-100/cifar-100-python.tar.gz
+./Sem8/Dataset/data/cifar-10-python.tar.gz
+./.git/objects/pack/pack-db582ca459ad6623195c4018c9cb92123fdeb84b.pack
+./.git/objects/pack/pack-ba4f73fd8276fb87960fcfb3f8571e7386f6a452.pack
+./.git/objects/pack/pack-a65aee84afdf89ad5f5177eac9658cc0fb137bf0.pack
+./.git/objects/pack/pack-ddcb73e7e53245d371e86c09d78cd848f0caf90b.pack
+./Logs/December Logs/cifar100-1.txt
+./Logs/December Logs/17Dec2.txt
+./Training/Models/trained_vgg16.pth
+./Training/Models/trained_wide_resnet34_20.pt
+./Training/Models/trained_vit.pth
+./Training/Models/trained_resnet34.pth
+./Training/Models/trained_wide_resnet34_10.pth
+./Sem8/Dataset/data/cifar-10-python.tar.gz
+./Training/Models/trained_resnet34.pth
+./Training/Models/trained_vgg16.pth
+./Logs/December\ Logs/cifar100-1.txt

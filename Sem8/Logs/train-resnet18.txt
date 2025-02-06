@@ -1,0 +1,42 @@
+DataLoader created for train and test datasets.
+Epoch 1 Loss: 1.4026 Accuracy: 0.4880
+DataLoader created for train and test datasets.
+Epoch 2 Loss: 0.8561 Accuracy: 0.6986
+DataLoader created for train and test datasets.
+Epoch 3 Loss: 0.6251 Accuracy: 0.7833
+DataLoader created for train and test datasets.
+Epoch 4 Loss: 0.4826 Accuracy: 0.8333
+DataLoader created for train and test datasets.
+Epoch 5 Loss: 0.3679 Accuracy: 0.8727
+DataLoader created for train and test datasets.
+Epoch 6 Loss: 0.2748 Accuracy: 0.9046
+DataLoader created for train and test datasets.
+Epoch 7 Loss: 0.1961 Accuracy: 0.9308
+DataLoader created for train and test datasets.
+Epoch 8 Loss: 0.1367 Accuracy: 0.9515
+DataLoader created for train and test datasets.
+Epoch 9 Loss: 0.1051 Accuracy: 0.9634
+DataLoader created for train and test datasets.
+Epoch 10 Loss: 0.0830 Accuracy: 0.9712
+DataLoader created for train and test datasets.
+Epoch 11 Loss: 0.0712 Accuracy: 0.9743
+DataLoader created for train and test datasets.
+Epoch 12 Loss: 0.0601 Accuracy: 0.9791
+DataLoader created for train and test datasets.
+Epoch 13 Loss: 0.0539 Accuracy: 0.9816
+DataLoader created for train and test datasets.
+Epoch 14 Loss: 0.0490 Accuracy: 0.9829
+DataLoader created for train and test datasets.
+Epoch 15 Loss: 0.0459 Accuracy: 0.9840
+DataLoader created for train and test datasets.
+Epoch 16 Loss: 0.0421 Accuracy: 0.9852
+DataLoader created for train and test datasets.
+Epoch 17 Loss: 0.0344 Accuracy: 0.9886
+DataLoader created for train and test datasets.
+Epoch 18 Loss: 0.0386 Accuracy: 0.9866
+DataLoader created for train and test datasets.
+Epoch 19 Loss: 0.0341 Accuracy: 0.9882
+DataLoader created for train and test datasets.
+Epoch 20 Loss: 0.0302 Accuracy: 0.9900
+Final Accuracy: 0.9933
+False Negative Rate (FNR) per class: [0.0022 0.0024 0.0106 0.0342 0.0046 0.002  0.0006 0.0028 0.0034 0.004 ]

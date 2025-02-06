@@ -8,7 +8,7 @@ import numpy as np
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import timm
-from rn_model import ResNet18
+from rn_model import ResNet34
 
 def get_loader(train_dir, test_dir) :
     # Define transforms
@@ -22,8 +22,8 @@ def get_loader(train_dir, test_dir) :
     test_dataset = datasets.ImageFolder(test_dir, transform=transform)
 
     # Create DataLoader for train and test datasets
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
     print("DataLoader created for train and test datasets.")
     return train_loader, test_loader
@@ -108,7 +108,7 @@ def train_model(model, train_dir, test_dir, num_epochs=10) :
     return model
 
 def train_and_save_model(model_name):
-    model = ResNet18(num_classes=10)
+    model = ResNet34(num_classes=10)
     # if 'resnet' in model_name or 'wide' in model_name:
     #     model.fc = nn.Linear(model.fc.in_features, 10)  # For ResNet and WideResNet
     # elif 'mobilenet' in model_name:
@@ -116,13 +116,13 @@ def train_and_save_model(model_name):
     model.cuda()
 
     trained_model = train_model(model, train_dir, test_dir, num_epochs)
-    torch.save(trained_model.state_dict(), f'{model_path}/trained2_{model_name}.pth')
+    torch.save(trained_model.state_dict(), f'{model_path}/trained_{model_name}.pth')
 
 if __name__ == '__main__' :
-    model_names = ['resnet18']
+    model_names = ['resnet34']
     train_dir = '../Dataset/tiny/CIFAR-10/train'
     test_dir = '../Dataset/tiny/CIFAR-10/test'
-    num_epochs = 20
+    num_epochs = 50
     model_path = './Models'
 
     # Loop through each model and train
