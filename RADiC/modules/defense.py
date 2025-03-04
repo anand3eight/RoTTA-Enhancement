@@ -15,6 +15,9 @@ class RoTTA(BaseAdapter):
         self.current_instance = 0
         self.fitness_lambda = 0.4
 
+        self.student_feature_extractor = nn.Sequential(*list(self.model.children())[:-1]) 
+        self.teacher_feature_extractor = nn.Sequential(*list(self.model_ema.children())[:-1])  
+
     @torch.enable_grad()
     def forward_and_adapt(self, batch_data, model, optimizer):
         # batch data
@@ -56,13 +59,31 @@ class RoTTA(BaseAdapter):
             return None
                 
         sup_data = torch.stack(sup_data)
-        features = self.feature_extractor(sup_data)
+        features = self.student_feature_extractor(sup_data)
         features = torch.flatten(features, 1)
         batch_std, batch_mean = torch.std_mean(features, dim=0)     
 
         # Forward pass through student and teacher models
         ema_sup_out = self.model_ema(sup_data)  # Teacher model output (f_T)
         stu_sup_out = self.model(sup_data)      # Student model output (f_S)
+
+        T = 2.0  # Adjust based on experiments
+        kl_loss = torch.nn.KLDivLoss(reduction='batchmean')(
+            F.log_softmax(stu_sup_out / T, dim=1),
+            F.softmax(ema_sup_out / T, dim=1)
+        )
+        kl_loss *= T * T
+
+        # Extract features
+        student_features = self.student_feature_extractor(sup_data)
+        teacher_features = self.teacher_feature_extractor(sup_data)  # Teacher model features
+
+        # Flatten features if necessary
+        student_features = torch.flatten(student_features, start_dim=1)
+        teacher_features = torch.flatten(teacher_features, start_dim=1)
+
+        # Compute Feature Matching Loss
+        feature_loss = torch.nn.SmoothL1Loss()(student_features, teacher_features)
 
         # Timeliness reweighting (assuming ages is defined elsewhere)
         instance_weight = timeliness_reweighting(ages)  # Should be defined or passed as input
@@ -76,8 +97,11 @@ class RoTTA(BaseAdapter):
         mean_mse = criterion_mse(batch_mean, self.train_info['mean'])
         discrepancy_loss = self.fitness_lambda * (std_mse.sum() + mean_mse.sum()) * sup_data.shape[0] / 64
 
-        # Total supervised loss
-        l_sup = discrepancy_loss + entropy_loss
+        beta = 0.5
+        gamma = 0.05
+
+        # Final IBD Loss Combination
+        l_sup = discrepancy_loss + entropy_loss + beta * feature_loss + gamma * kl_loss
 
         return l_sup
 
@@ -85,7 +109,7 @@ class RoTTA(BaseAdapter):
     def update_ema_variables(ema_model, model, nu):
         for ema_param, param in zip(ema_model.parameters(), model.parameters()):
             ema_param.data[:] = (1 - nu) * ema_param[:].data[:] + nu * param[:].data[:]
-            return ema_model
+        return ema_model
 
     def configure_model(self, model: nn.Module):
 
@@ -112,13 +136,12 @@ class RoTTA(BaseAdapter):
 
     def obtain_origin_stat(self, train_loader):
         print('===> begin calculating mean and variance for ResNet18')
-        self.feature_extractor = nn.Sequential(*list(self.model.children())[:-1]).cuda()
         features = []
         with torch.no_grad():
             for images, _ in train_loader:
                 images = images.cuda()
                 # Pass images through the model to get features
-                feature = self.feature_extractor(images)
+                feature = self.student_feature_extractor(images)
                 feature = torch.flatten(feature, 1)
                 features.append(feature)  # Flatten the features
 

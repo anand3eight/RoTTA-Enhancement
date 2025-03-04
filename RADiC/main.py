@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from modules.helper import evaluate_tta
 from modules.defense import RoTTA
-from pr_net import PreActResNet18
+import os
 
 def build_optimizer(method = 'SGD'):
     def optimizer(params):
@@ -34,7 +34,7 @@ def testTimeAdaptation(student, dataset_path, model_name, attack_type):
         transforms.ToTensor(),
     ])
 
-    clean_dataset_path = '../Attacks/CIFAR-10/ResNet18/Clean'
+    clean_dataset_path = '/home/project/Documents/RoTTA-Enhancement/Dataset/CIFAR-10/test'
     clean_dataset = datasets.ImageFolder(clean_dataset_path, transform=transform)
     clean_data_loader = DataLoader(clean_dataset, batch_size=batch_size, shuffle=False)
     tta_model.obtain_origin_stat(clean_data_loader)
@@ -45,15 +45,15 @@ def testTimeAdaptation(student, dataset_path, model_name, attack_type):
     evaluate_tta(loader, tta_model, student, model_name, attack_type)
 
 def main():
-    models_path = '../Training/Models'
-    dataset = f"../Attacks/CIFAR-10"
-    models = {'RN18+MedBN' : 'trained_resnet.pth'}  
-    attacks = ['SQUARE']
-    for model_name in models :
-        for attack in attacks :
-            student = torch.load(f"{models_path}/{models[model_name]}")
-            dataset_dir = f"{dataset}/{'ResNet18'}/{attack}"
-            testTimeAdaptation(student, dataset_dir, model_name, attack)
+    models_path = '/home/project/Documents/RoTTA-Enhancement/RADiC/'
+    dataset = f"/home/project/Documents/RoTTA-Enhancement/Attacks/CIFAR-10/ResNet18"
+    models = {'RN18-IBD' : 'trained_resnet_updated.pth'}  
+    attacks = [d.name for d in os.scandir(dataset) if d.is_dir()]
+    for attack in attacks :
+        student = torch.load(f"{models_path}/{models['RN18-IBD']}")
+        dataset_dir = f"{dataset}/{attack}"
+        print(dataset_dir)
+        testTimeAdaptation(student, dataset_dir, 'RN18-IBD', attack)
 
 if __name__ == "__main__":
     main()
