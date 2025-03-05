@@ -1,4 +1,5 @@
 import torchattacks
+import torch
 
 # Continuous Transformation Attack implementation
 def continuous_transformation_attack(model, images, labels, device='cuda'):
@@ -29,19 +30,22 @@ def continuous_transformation_attack(model, images, labels, device='cuda'):
     return images
 
 # Mixed Batch Attack implementation
-def mixed_batch_attack(model, dataloader, device='cuda'):
+def mixed_batch_attack(model, images, labels, device='cuda'):
+    images, labels = images.to(device), labels.to(device)
 
     # Define the attacks
     pgd_20 = torchattacks.PGD(model, eps=0.3, alpha=2/255, steps=20)
     cw_attack = torchattacks.CW(model, c=1e-4, kappa=0, steps=30)
+
     batch_size = images.size(0)
 
     # Indices for different attack groups
-    indices = torch.randperm(batch_size)
+    indices = torch.randperm(batch_size, device=device)
     pgd_indices = indices[:int(0.3 * batch_size)]
     cw_indices = indices[int(0.3 * batch_size):int(0.6 * batch_size)]
     clean_indices = indices[int(0.6 * batch_size):]
 
+    # Clone images to modify only specific portions
     attacked_images = images.clone()
     attacked_images[pgd_indices] = pgd_20(images[pgd_indices], labels[pgd_indices])
     attacked_images[cw_indices] = cw_attack(images[cw_indices], labels[cw_indices])

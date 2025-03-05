@@ -3,10 +3,10 @@ import torch
 import torchvision.transforms as transforms
 from torchvision import datasets
 from torch.utils.data import DataLoader
-from torchattacks import PGD, CW, APGD, APGDT, FAB, Square
+from torchattacks import PGD, CW, APGD, APGDT, FAB, Square, JSMA
 from PIL import Image
 from tqdm import tqdm
-from pr_net import PreActResNet18
+from adaptive_attacks import mixed_batch_attack
 
 def generate_attack_samples(folder_path, model, dataset_name, model_name):
     # Set device to GPU if available
@@ -33,6 +33,7 @@ def generate_attack_samples(folder_path, model, dataset_name, model_name):
     apgdt_attack = APGDT(model, eps=8/255, steps=10)
     fab_attack = FAB(model, eps=8/255, steps=10)
     square_attack = Square(model, eps=8/255)
+    jsma_attack = JSMA(model, theta=1.0, gamma=0.1)
 
     # Output folders
     output_folder = os.path.join(dataset_name, model_name)
@@ -62,13 +63,14 @@ def generate_attack_samples(folder_path, model, dataset_name, model_name):
 
         # Generate attack samples
         adv_images_list = {
-            "PGD": pgd_attack(images, labels),
-            "CW": cw_attack(images, labels),
-            "APGD": apgd_attack(images, labels),
-            "APGD_T": apgdt_attack(images, labels),
-            "FAB": fab_attack(images, labels),
-            "Square": square_attack(images, labels),
-        }
+        #     "PGD": pgd_attack(images, labels),
+        #     "CW": cw_attack(images, labels),
+        #     "APGD": apgd_attack(images, labels),
+        #     "APGD_T": apgdt_attack(images, labels),
+        #     "FAB": fab_attack(images, labels),
+        #     "Square": square_attack(images, labels),
+              "MBA" : mixed_batch_attack(model, images, labels),
+         }
 
         # Save attack images
         for attack_type, adv_images in adv_images_list.items():
@@ -84,9 +86,9 @@ def generate_attack_samples(folder_path, model, dataset_name, model_name):
     print(f"Clean & adversarial samples saved in: {output_folder}")
 
 # Example usage
-dataset_name = 'CIFAR-100'
-model_name = 'PRN18'
-folder_path = f'../Dataset/{dataset_name}/test'
-model = PreActResNet18(num_classes=100)
-model.load_state_dict( torch.load('../Training/Models/trained_preactresnet18-c100.pth') )
+dataset_name = 'CIFAR-10'
+model_name = 'ResNet18'
+folder_path = '/home/project/Documents/RoTTA-Enhancement/Dataset/CIFAR-10/test'
+model_path = '/home/project/Documents/RoTTA-Enhancement/Training/Models/trained_resnet.pth'
+model = torch.load( model_path )
 generate_attack_samples(folder_path, model, dataset_name, model_name)
