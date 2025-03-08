@@ -88,7 +88,7 @@ def generate_attack_samples(folder_path, model, dataset_name, model_name):
 # Example usage
 dataset_name = 'CIFAR-10'
 model_name = 'ResNet18'
-folder_path = '/home/project/Documents/RoTTA-Enhancement/Dataset/CIFAR-10/test'
-model_path = '/home/project/Documents/RoTTA-Enhancement/Training/Models/trained_resnet.pth'
+folder_path = ''
+model_path = ''
 model = torch.load( model_path )
 generate_attack_samples(folder_path, model, dataset_name, model_name)

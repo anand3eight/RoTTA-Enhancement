@@ -22,8 +22,8 @@ def copy_n_images(source_folder, destination_folder, class_name, n=200):
 
 # Example usage
 n = 500
-source_folder = '/home/project/Documents/RoTTA-Enhancement/Dataset/CIFAR-10/test'  # Replace with the path to your source folder
-folder = '/home/project/Documents/RoTTA-Enhancement/Dataset/tiny/CIFAR-10/test'  # Replace with the path to your destination folder
+source_folder = '' 
+folder = ''  
 for class_name in os.listdir(source_folder) :
     destination_folder = os.path.join(folder, class_name)
     copy_n_images(source_folder, destination_folder, class_name, n)

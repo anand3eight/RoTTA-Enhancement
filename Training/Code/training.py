@@ -117,7 +117,7 @@ if __name__ == '__main__' :
     train_dir = '../../Dataset/tiny/cifar-100/train'
     test_dir = '../../Dataset/tiny/cifar-100/test'
     num_epochs = 50
-    model_path = '/home/project/Documents/RoTTA-Enhancement/Training/Models'
+    model_path = ''
 
     # Loop through each model and train
     for model_name in model_names:

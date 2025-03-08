@@ -34,7 +34,7 @@ def testTimeAdaptation(student, dataset_path, model_name, attack_type):
         transforms.ToTensor(),
     ])
 
-    clean_dataset_path = '/home/project/Documents/RoTTA-Enhancement/Dataset/CIFAR-10/test'
+    clean_dataset_path = ''
     clean_dataset = datasets.ImageFolder(clean_dataset_path, transform=transform)
     clean_data_loader = DataLoader(clean_dataset, batch_size=batch_size, shuffle=False)
     tta_model.obtain_origin_stat(clean_data_loader)
@@ -45,8 +45,8 @@ def testTimeAdaptation(student, dataset_path, model_name, attack_type):
     evaluate_tta(loader, tta_model, student, model_name, attack_type)
 
 def main():
-    models_path = '/home/project/Documents/RoTTA-Enhancement/RADiC/'
-    dataset = f"/home/project/Documents/RoTTA-Enhancement/Attacks/CIFAR-10/ResNet18"
+    models_path = ''
+    dataset = f""
     models = {'RN18-IBD' : 'trained_resnet_updated.pth'}  
     attacks = [d.name for d in os.scandir(dataset) if d.is_dir()]
     for attack in attacks :
